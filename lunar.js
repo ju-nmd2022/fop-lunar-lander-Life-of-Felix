@@ -1,27 +1,38 @@
-function setup() {
-    createCanvas(500, 700);
-    frameRate(60);
-    background(20);
-    
-}
+
+  let backGroCol = 20
+
   // Fall total speed
   let fallTot = 0
   // acceleration total
   let accTot = 0.1
 
+
+  // For smiling face
   let pauseStatus = 0
   let smileStart = 0
   let smileEnd = 0
 
-  let noseCol = 20
-  flipNoseCol = 1
+  // Start screen fade
+  let noseCol = backGroCol
+  let flipNoseCol = 1
+
+  // timer
+  let winTime = false
+  let finalTime = 0
+  let gameTime = 0
 
   startScreen = true
+  function setup() {
+    createCanvas(500, 700);
+    frameRate(60);
+    background(backGroCol);
+      
+  }
 
   function draw() {
     let faceCol = color(140,70,200)
     let gameWhite = color(255,255,255)
-    let missingNoseCol = color(20,20,20)
+    let missingNoseCol = color(backGroCol)
 
     if(startScreen === true){
       push();
@@ -35,7 +46,6 @@ function setup() {
       endShape();
 
       if(mouseX < 350 && mouseX > 170 && mouseY < 130 && mouseY > 70 && mouseIsPressed === true){
-        erase();
         startScreen = false
       }
 
@@ -55,8 +65,9 @@ function setup() {
           }
           
         endShape();
-        pop();
+        
     }else{
+    background(backGroCol)
 
     
     
@@ -125,8 +136,10 @@ function setup() {
           fallTot = 0
           accTot = 0.1
           pauseStatus = 0
+          winTime = false
+          gameTime = 0
         }
-
+        
       }
       
       if(accTot < 0.1 && accTot > -0.1 && -200+fallTot >-5 &&-200+fallTot <5 ){
@@ -140,10 +153,20 @@ function setup() {
           smileEnd += 0.1
         }
         redoText('Redo?',350,140,150,95)
+        if(winTime === false){
+          
+          console.log(gameTime)
+          finalTime = gameTime/60
+          winTime = true
+          
+        }
+        stroke(0,0,0,0)
+        fill(255)
+        textFont('Times New Roman',20)
+        text(`Time: ${finalTime.toFixed(2)}s`,mouseX-210,mouseY-410)
+
       };
-      if(mouseIsPressed === true){
-        console.log(mouseX)
-      }
+      
       if(pauseStatus === 0 ){
         if (fallTot<350){
         fallTot += 0.2*accTot
@@ -155,51 +178,12 @@ function setup() {
           accTot -= 1
         }
       }
-
+      
 
       noseMaker(0,0,missingNoseCol)
       noseMaker(0,-200+fallTot,gameWhite)
-
+      
     pop();
-
+    
   };
   }
-  // function draw(){
-  //   if(mouseIsPressed === true){
-  //     console.clear()
-  //     console.log(mouseX + 'x')
-  //     console.log(mouseY + 'Y')
-      
-  //   }
-    
-  //   // Start button
-  //   beginShape();
-  //     fill(255)
-  //     textAlign(CENTER);
-  //     textFont('Verdana',70)
-  //     text('Start', 255,130);
-  //     textStyle(NORMAL);
-  //   endShape();
-
-  //   if(mouseX < 350 && mouseX > 170 && mouseY < 130 && mouseY > 70 && mouseIsPressed === true){
-  //     startScreen = fa
-  //   }
-
-    
-  //   //Game name
-  //   beginShape();
-  //     fill(noseCol)
-  //     textAlign(CENTER);
-  //     textFont('Times New Roman',70)
-  //     text('Nose', 255,530);
-      
-  //     noseCol +=1*flipNoseCol
-  //     if(noseCol===255){
-  //       flipNoseCol = -1
-  //     }if(noseCol === 20){
-  //       flipNoseCol = 1
-  //     }
-      
-  //   endShape();
-    
-  // }
